@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import logoImage from "./assets/logo-nlw-expert.svg";
 import { NewNoteCard } from "./components/new-note-card";
 import { NoteCard } from "./components/note-card";
@@ -19,6 +19,7 @@ export function App() {
 
     return [];
   });
+  const [search, setSearch] = useState("");
 
   function onNoteCreated(content: string) {
     const newNote = {
@@ -34,20 +35,35 @@ export function App() {
     localStorage.setItem("notes", JSON.stringify(notesArray));
   }
 
+  function handleSearch(event: ChangeEvent<HTMLInputElement>) {
+    const query = event.target.value;
+
+    setSearch(query);
+  }
+
+  const filteredNotes =
+    search !== ""
+      ? notes.filter((note) =>
+          note.content.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+        )
+      : notes;
+
   return (
     <div className="mx-auto max-w-6xl my-12 space-y-6">
       <img src={logoImage} alt="NLW Expert" />
       <form className="w-full">
         <input
+          value={search}
           className="w-full bg-transparent text-3xl font-semibold tracking-tight placeholder:text-slate-500 outline-none"
           type="text"
           placeholder="Busque em suas notas..."
+          onChange={handleSearch}
         />
       </form>
       <div className="h-px bg-slate-700" />
       <div className="grid grid-cols-3 auto-rows-[250px] gap-6">
         <NewNoteCard onNoteCreated={onNoteCreated} />
-        {notes.map((note) => {
+        {filteredNotes.map((note) => {
           return <NoteCard key={note.id} note={note} />;
         })}
       </div>
