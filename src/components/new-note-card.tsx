@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -6,6 +7,8 @@ import { toast } from "sonner";
 interface NewNoteCardProps {
   onNoteCreated: (content: string) => void;
 }
+
+let speechRecognition: SpeechRecognition | null = null;
 
 export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnBoarding] = useState(true);
@@ -54,14 +57,14 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
     const SpeechRecognitionAPI =
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    const speechRecogntion = new SpeechRecognitionAPI();
+    speechRecognition = new SpeechRecognitionAPI();
 
-    speechRecogntion.lang = "pt-BR";
-    speechRecogntion.continuous = true;
-    speechRecogntion.maxAlternatives = 1;
-    speechRecogntion.interimResults = true;
+    speechRecognition.lang = "pt-BR";
+    speechRecognition.continuous = true;
+    speechRecognition.maxAlternatives = 1;
+    speechRecognition.interimResults = true;
 
-    speechRecogntion.onresult = (event) => {
+    speechRecognition.onresult = (event) => {
       const transcription = Array.from(event.results).reduce((text, result) => {
         return text.concat(result[0].transcript);
       }, "");
@@ -69,15 +72,19 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
       setContent(transcription);
     };
 
-    speechRecogntion.onerror = (event) => {
+    speechRecognition.onerror = (event) => {
       console.error(event);
     };
 
-    speechRecogntion.start();
+    speechRecognition.start();
   }
 
   function handleStopRecording() {
     setIsRecording(false);
+
+    if (speechRecognition !== null) {
+      speechRecognition.stop();
+    }
   }
 
   return (
