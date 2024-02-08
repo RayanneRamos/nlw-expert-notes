@@ -28,6 +28,9 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
 
     onNoteCreated(content);
 
+    setContent("");
+    setShouldShowOnBoarding(true);
+
     toast.success("Nota criada com sucesso");
   }
 
@@ -73,6 +76,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                     autoFocus
                     className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none"
                     onChange={handleContentChange}
+                    value={content}
                   />
                 )}
               </div>
