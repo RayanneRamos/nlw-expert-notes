@@ -22,7 +22,15 @@
 - [x] NLW Expert | Aula 03
 - [x] NLW Expert | Encerramento do NLW
 
-## 🧪 Technologies
+## 🌟 Funcionalidades
+
+1. **Aplicação Completa**: Desenvolvimento de uma aplicação que segue as melhores práticas de mercado. 
+2. **Gerenciamento de Estado**: Utilização de bibliotecas populares para controle do estado global.
+3. **Interface Responsiva**: Design otimizado para diversas telas, proporcionando uma boa experiência no desktop e em dispositivos móveis.
+4. **Integração com APIs**: Consumo de APIs externas para manipulação e exibição de dados.
+
+
+## 🧪 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
